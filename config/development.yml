@@ -1,0 +1,7 @@
+#mysql cofnig
+mongoose:
+  schemaConfig:
+    autoIndex: true
+mongodb:
+  db: mongodb://127.0.0.1/tourist_route_development
+  dbName: tourist_route_development
