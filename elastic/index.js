@@ -23,7 +23,52 @@ createIndices('scenery', scenerySchemas)
 createIndices('route', routeSchemas)
 createIndices('scenery_correlation', sceneryCorrelationSchemas)
 
-module.exports = client
+client.getRouteRecom1 = getRouteRecom1
+function getRouteRecom1 (val) {
+  return new Promise((resolve, reject) => {
+    client.search({
+      index: 'route',
+      type: 'fulltext',
+      size: 2,
+      body: {
+        query: {
+          match: {
+            routeVar: val
+          }
+        }
+      }
+    }, (error, response) => {
+      if (error) {
+        reject(error)
+      } else {
+        console.log(response + '=====')
+        resolve(response)
+      }
+    })
+  })
+}
+
+client.getScenery = getScenery
+function getScenery (val = []) {
+  const index = { index: 'scenery', type: 'fulltext' }
+  const body = []
+  val.forEach(d => {
+    if (typeof d === 'string') {
+      body.push(index)
+      body.push({ query: { match: { name: d } }, size: 1 })
+    }
+  })
+  return new Promise((resolve, reject) => {
+    client.msearch({ body }, (error, response) => {
+      if (error) {
+        reject(error)
+      } else {
+        console.log(JSON.stringify(response) + '=====')
+        resolve(response)
+      }
+    })
+  })
+}
 
 function createIndices (index, schema) {
   client.indices.create({
@@ -39,3 +84,5 @@ function createIndices (index, schema) {
     }
   })
 }
+
+module.exports = client
