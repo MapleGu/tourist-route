@@ -2,7 +2,8 @@ const lineReader = require('line-reader')
 const path = require('path')
 const fs = require('fs')
 const iconv = require('iconv-lite')
-const model = require('../models')
+const elastic = require('../elastic')
+// const model = require('../models')
 
 const txtPath = path.resolve(__dirname, 'file/关联规则.txt')
 
@@ -38,6 +39,19 @@ function run () {
 }
 
 async function create (data, cb) {
-  await model.Scenerycorrelation.create(data)
-  cb()
+  elastic.index({
+    index: 'scenery_correlation',
+    type: 'fulltext',
+    body: data
+  }, (err, response) => {
+    if (err) {
+      console.log(err)
+    } else {
+      cb()
+    }
+  })
 }
+// async function create (data, cb) {
+//   await model.Scenerycorrelation.create(data)
+//   cb()
+// }

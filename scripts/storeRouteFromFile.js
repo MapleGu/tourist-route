@@ -1,7 +1,8 @@
 const lineReader = require('line-reader')
 const path = require('path')
 
-const model = require('../models')
+const elastic = require('../elastic')
+// const model = require('../models')
 
 const txtPath = path.resolve(__dirname, 'file/路线.txt')
 
@@ -26,7 +27,11 @@ function run () {
           data.routes.push({
             name: d
           })
-          data.routeVar = data.routeVar + d + '-'
+          if (data.routeVar) {
+            data.routeVar = data.routeVar + '-' + d
+          } else {
+            data.routeVar = d
+          }
         }
       }
     })
@@ -35,6 +40,19 @@ function run () {
 }
 
 async function createRoute (data, cb) {
-  await model.Route.create(data)
-  cb()
+  elastic.index({
+    index: 'route',
+    type: 'fulltext',
+    body: data
+  }, (err, response) => {
+    if (err) {
+      console.log(err)
+    } else {
+      cb()
+    }
+  })
 }
+// async function createRoute (data, cb) {
+//   await model.Route.create(data)
+//   cb()
+// }
