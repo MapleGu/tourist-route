@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const koaBody = require('koa-body')
+const cors = require('@koa/cors')
 
 const elastic = require('../elastic')
 
@@ -8,6 +9,8 @@ const app = new Koa()
 app.use(koaBody({
   jsonLimit: '1kb'
 }))
+
+app.use(cors())
 
 app.use(async function (ctx) {
   const body = ctx.request.body

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@koa/cors": "2",
     "bluebird": "^3.5.1",
     "config": "^1.30.0",
     "debug": "^3.1.0",
