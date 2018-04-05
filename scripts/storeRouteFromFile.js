@@ -18,20 +18,13 @@ function run () {
     }
     line.split(' ').forEach(d => {
       if (d) {
-        if (d.includes('-')) {
-          const n = parseInt(d.match(/\d/g).join(''))
-          if (!isNaN(n)) {
-            data.weight = n
-          }
+        data.routes.push({
+          name: d
+        })
+        if (data.routeVar) {
+          data.routeVar = data.routeVar + '-' + d
         } else {
-          data.routes.push({
-            name: d
-          })
-          if (data.routeVar) {
-            data.routeVar = data.routeVar + '-' + d
-          } else {
-            data.routeVar = d
-          }
+          data.routeVar = d
         }
       }
     })

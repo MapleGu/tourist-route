@@ -29,6 +29,9 @@ module.exports = {
         location: {
           type: 'geo_point'
         },
+        areaID: {
+          type: 'integer'
+        },
         introduce: {
           type: 'text',
           analyzer: 'ik_max_word',

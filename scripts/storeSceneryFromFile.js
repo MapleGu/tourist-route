@@ -44,6 +44,7 @@ async function createSceneryToElastic (data) {
   elastic.index({
     index: 'scenery',
     type: 'fulltext',
+    id: data[0],
     body: scenery
   }, (err, response) => {
     if (err) {

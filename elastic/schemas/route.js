@@ -4,7 +4,6 @@ module.exports = {
     mappings: {
       fulltext: {
         properties: {
-          weight: { type: 'integer' },
           routeVar: {
             type: 'text',
             analyzer: 'ik_max_word',

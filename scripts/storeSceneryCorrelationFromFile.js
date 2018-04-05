@@ -5,7 +5,7 @@ const iconv = require('iconv-lite')
 const elastic = require('../elastic')
 // const model = require('../models')
 
-const txtPath = path.resolve(__dirname, 'file/关联规则.txt')
+const txtPath = path.resolve(__dirname, 'file/关联.txt')
 
 const m = /\{(.+?)\}/g
 const numberm = /\d([\d,.]*)\d/g

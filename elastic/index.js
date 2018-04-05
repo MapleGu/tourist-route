@@ -23,6 +23,63 @@ createIndices('scenery', scenerySchemas)
 createIndices('route', routeSchemas)
 createIndices('scenery_correlation', sceneryCorrelationSchemas)
 
+client.getRouteRecom2 = getRouteRecom2
+function getRouteRecom2 (val) {
+  const should = val.split(' ').filter(d => !!d).map(d => ({match: { source: d }}))
+  return new Promise((resolve, reject) => {
+    client.search({
+      index: 'scenery_correlation',
+      type: 'fulltext',
+      body: {
+        size: 0,
+        query: {
+          bool: { should }
+        },
+        aggs: {
+          aggs_source: {
+            terms: {
+              size: 20,
+              field: 'source.keyword',
+              order: {
+                'avg_score.value': 'asc'
+              }
+            },
+            aggs: {
+              avg_score: {
+                avg: {
+                  field: 'weight'
+                }
+              }
+            }
+          },
+          aggs_target: {
+            terms: {
+              size: 20,
+              field: 'target.keyword',
+              order: {
+                'avg_score.value': 'asc'
+              }
+            },
+            aggs: {
+              avg_score: {
+                avg: {
+                  field: 'weight'
+                }
+              }
+            }
+          }
+        }
+      }
+    }, (error, response) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(response)
+      }
+    })
+  })
+}
+
 client.getRouteRecom1 = getRouteRecom1
 function getRouteRecom1 (val) {
   return new Promise((resolve, reject) => {
@@ -41,7 +98,6 @@ function getRouteRecom1 (val) {
       if (error) {
         reject(error)
       } else {
-        console.log(response + '=====')
         resolve(response)
       }
     })
@@ -63,7 +119,6 @@ function getScenery (val = []) {
       if (error) {
         reject(error)
       } else {
-        console.log(JSON.stringify(response) + '=====')
         resolve(response)
       }
     })
