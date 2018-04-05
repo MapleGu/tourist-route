@@ -50,7 +50,6 @@ async function createSceneryToElastic (data, cb) {
   }, (err, response) => {
     if (err) {
       cb(err)
-      console.log(err)
     } else {
       cb()
     }
