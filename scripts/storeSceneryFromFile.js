@@ -17,14 +17,15 @@ function run () {
   .pipe(iconv.decodeStream('gb2312'))
   .pipe(csv.parse())
   .pipe(csv.transform((record, cb) => {
-    createSceneryToElastic(record)
+    createSceneryToElastic(record, cb)
   }))
 }
 
-async function createSceneryToElastic (data) {
+async function createSceneryToElastic (data, cb) {
   if (data[1] === 'SceneryName') {
     return
   }
+  console.log(data[1])
   const scenery = {
     name: data[1],
     place: data[2],
@@ -32,7 +33,7 @@ async function createSceneryToElastic (data) {
     introduce: data[8],
     price: data[10],
     genre: data[11],
-    timeSpan: data[15]
+    timeSpan: data[16]
   }
   if (data[4] && data[5]) {
     scenery.location = {
@@ -48,7 +49,10 @@ async function createSceneryToElastic (data) {
     body: scenery
   }, (err, response) => {
     if (err) {
+      cb(err)
       console.log(err)
+    } else {
+      cb()
     }
   })
 }
