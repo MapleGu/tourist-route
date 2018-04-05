@@ -52,7 +52,7 @@ async function Recom2 (ctx, body) {
   }
 
   data.routes = [...new Set(data.routes)]
-
+  data.routes = [data.routes.join('-')]
   const len = 10
   if (data.routes.length > len) {
     data.routes = data.routes.slice(0, len)
