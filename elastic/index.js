@@ -23,6 +23,122 @@ createIndices('scenery', scenerySchemas)
 createIndices('route', routeSchemas)
 createIndices('scenery_correlation', sceneryCorrelationSchemas)
 
+client.getRouteRecom4 = getRouteRecom4
+function getRouteRecom4 (val) {
+  const should = {match: { areaID: val }}
+  return new Promise((resolve, reject) => {
+    client.search({
+      index: 'scenery',
+      type: 'fulltext',
+      body: {
+        size: 3,
+        sort: {
+          times: 'desc'
+        },
+        query: {
+          bool: { should }
+        }
+      }
+    }, (error, response) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(response)
+      }
+    })
+  })
+}
+
+client.getFavriteArea = getFavriteArea
+// 找出最感兴趣区域
+function getFavriteArea (val) {
+  const should = val.split(' ').filter(d => !!d).map(d => ({match: { name: d }}))
+  return new Promise((resolve, reject) => {
+    client.search({
+      index: 'scenery',
+      type: 'fulltext',
+      body: {
+        size: 0,
+        query: {
+          bool: { should }
+        },
+        aggs: {
+          favrite: {
+            terms: {
+              size: 1,
+              field: 'areaID'
+            }
+          }
+        }
+      }
+    }, (error, response) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(response)
+      }
+    })
+  })
+}
+
+client.getRouteRecom3 = getRouteRecom3
+function getRouteRecom3 (val) {
+  const should = {match: { genre: val }}
+  return new Promise((resolve, reject) => {
+    client.search({
+      index: 'scenery',
+      type: 'fulltext',
+      body: {
+        size: 3,
+        sort: {
+          times: 'desc'
+        },
+        query: {
+          bool: { should }
+        }
+      }
+    }, (error, response) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(response)
+      }
+    })
+  })
+}
+
+client.getFavriteCate = getFavriteCate
+// 找出最感兴趣类别
+function getFavriteCate (val) {
+  const should = val.split(' ').filter(d => !!d).map(d => ({match: { name: d }}))
+  return new Promise((resolve, reject) => {
+    client.search({
+      index: 'scenery',
+      type: 'fulltext',
+      body: {
+        size: 0,
+        query: {
+          bool: { should }
+        },
+        aggs: {
+          favrite: {
+            terms: {
+              size: 1,
+              field: 'genre'
+            }
+          }
+        }
+      }
+    }, (error, response) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(response)
+      }
+    })
+  })
+}
+
 client.getRouteRecom2 = getRouteRecom2
 function getRouteRecom2 (val) {
   const should = val.split(' ').filter(d => !!d).map(d => ({match: { source: d }}))

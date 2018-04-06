@@ -30,10 +30,12 @@ async function createSceneryToElastic (data, cb) {
     name: data[1],
     place: data[2],
     openTime: data[3],
+    areaID: data[7],
     introduce: data[8],
     price: data[10],
     genre: data[11],
-    timeSpan: data[16]
+    timeSpan: data[16],
+    times: +data[18]
   }
   if (data[4] && data[5]) {
     scenery.location = {

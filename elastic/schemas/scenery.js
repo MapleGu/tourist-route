@@ -3,15 +3,13 @@ module.exports = {
     fulltext: {
       properties: {
         name: {
-          type: 'text',
-          analyzer: 'ik_max_word',
-          search_analyzer: 'ik_max_word'
+          type: 'keyword'
         },
         price: {
           type: 'text'
         },
         genre: {
-          type: 'text'
+          type: 'keyword'
         },
         timeSpan: {
           type: 'integer'
@@ -36,6 +34,9 @@ module.exports = {
           type: 'text',
           analyzer: 'ik_max_word',
           search_analyzer: 'ik_max_word'
+        },
+        times: {
+          type: 'integer'
         }
       }
     }
