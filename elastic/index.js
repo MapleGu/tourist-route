@@ -6,6 +6,7 @@ const routeSchemas = require('./schemas/route')
 const sceneryCorrelationSchemas = require('./schemas/scenery_correlation')
 
 const opt = config.get('elasticsearch')
+console.log(opt)
 const client = new elasticsearch.Client(opt)
 
 client.ping({
