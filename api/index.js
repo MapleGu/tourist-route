@@ -62,9 +62,7 @@ async function Recom4 (ctx, body) {
 
   let routes = data.routes.filter(d => !!data.info[d]).sort((a, b) => {
     if (data.info[a]._source.location.lat > data.info[b]._source.location.lat) {
-      if (data.info[a]._source.location.lon > data.info[b]._source.location.lon) {
-        return 1
-      }
+      return 1
     }
     return -1
     // if ((data.info[a]._source.location.lat - data.info[b]._source.location.lat) > (data.info[a]._source.location.lon - data.info[b]._source.location.lon)) {
@@ -105,11 +103,10 @@ async function Recom3 (ctx, body) {
   })
 
   let routes = data.routes.filter(d => !!data.info[d]).sort((a, b) => {
-    if ((data.info[a]._source.location.lat - data.info[b]._source.location.lat) > (data.info[a]._source.location.lon - data.info[b]._source.location.lon)) {
+    if (data.info[a]._source.location.lat > data.info[b]._source.location.lat) {
       return 1
-    } else {
-      return -1
     }
+    return -1
   })
   routes = [routes.join('-')]
   data.routes = routes
@@ -158,11 +155,10 @@ async function Recom2 (ctx, body) {
   })
 
   let routes = data.routes[0].split('-').filter(d => !!data.info[d]).sort((a, b) => {
-    if ((data.info[a]._source.location.lat - data.info[b]._source.location.lat) > (data.info[a]._source.location.lon - data.info[b]._source.location.lon)) {
+    if (data.info[a]._source.location.lat > data.info[b]._source.location.lat) {
       return 1
-    } else {
-      return -1
     }
+    return -1
   })
   routes = [routes.join('-')]
   data.routes = routes
@@ -196,11 +192,10 @@ async function Recom1 (ctx, body) {
   })
 
   let routes = data.routes[0].split('-').filter(d => !!data.info[d]).sort((a, b) => {
-    if ((data.info[a]._source.location.lat - data.info[b]._source.location.lat) > (data.info[a]._source.location.lon - data.info[b]._source.location.lon)) {
+    if (data.info[a]._source.location.lat > data.info[b]._source.location.lat) {
       return 1
-    } else {
-      return -1
     }
+    return -1
   })
   routes = [routes.join('-')]
   data.routes = routes
